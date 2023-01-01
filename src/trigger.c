@@ -939,6 +939,9 @@ static ExprList *sqlite3ExpandReturning(
       if( !db->mallocFailed && ALWAYS(pList->a[i].zEName!=0) ){
         struct ExprList_item *pItem = &pNew->a[pNew->nExpr-1];
         pItem->zEName = sqlite3DbStrDup(db, pList->a[i].zEName);
+        if ( pList->a[i].eEName!=ENAME_NAME && pOldExpr->op==TK_ID ){
+          sqlite3Dequote(pItem->zEName);
+        }
         pItem->fg.eEName = pList->a[i].fg.eEName;
       }
     }
